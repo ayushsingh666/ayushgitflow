@@ -1,0 +1,29 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.10' // Use a version compatible with Java 8
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'  // Make sure to apply the Java plugin
+}
+
+group = 'github-action'
+version = '0.0.1-SNAPSHOT'
+
+// Toolchain configuration should be placed correctly
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)  // Specifies the required Java version
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
