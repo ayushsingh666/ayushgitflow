@@ -1,20 +1,27 @@
-name: Build
+name: project cicd
 
 on:
   push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
     steps:
-    - name: Checkout sources
-      uses: actions/checkout@v4
-    - name: Setup Java
+    - uses: actions/checkout@v4
+
+    # Set up JDK 17 (using Adoptium Temurin)
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
+        java-version: '17'
         distribution: 'temurin'
-        java-version: 17
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
+
+    # Build the project using the Gradle Wrapper
     - name: Build with Gradle
       run: ./gradlew build
