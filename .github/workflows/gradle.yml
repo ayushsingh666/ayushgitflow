@@ -1,4 +1,4 @@
-name: project cicd
+name: Project CI/CD
 
 on:
   push:
@@ -39,14 +39,18 @@ jobs:
 
       # Build Docker image
       - name: Build Docker image
-        run: docker buildx  build --load -f docker/Dockerfile -t gcr.io/beckendtest/finone-backend:${{ github.sha }} .
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/backendtest:${{ github.sha }} \
+                       -t ${{ secrets.DOCKER_USERNAME }}/backendtest:latest \
+                       -f docker/Dockerfile .
 
+      # Verify Docker image exists
       - name: Verify Docker image exists
         run: |
-          docker images | grep gcr.io/beckendtest:${{ github.sha }} || echo "Docker image not found"
+          docker images | grep ${{ secrets.DOCKER_USERNAME }}/backendtest || echo "Docker image not found"
 
+      # Push Docker image to Docker Hub
       - name: Push Docker image to Docker Hub
         run: |
-          docker push ***/backendtest:${{ github.sha }}
-          docker push ***/backendtest:latest
-          
+          docker push ${{ secrets.DOCKER_USERNAME }}/backendtest:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/backendtest:latest
