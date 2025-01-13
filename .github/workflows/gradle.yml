@@ -39,7 +39,7 @@ jobs:
 
       # Build Docker image
       - name: Build Docker image
-        run: docker buildx build -f docker/Dockerfile -t gcr.io/beckendtest/finone-backend:${{ github.sha }} .
+        run: docker buildx  build --load -f docker/Dockerfile -t gcr.io/beckendtest/finone-backend:${{ github.sha }} .
 
       - name: Verify Docker image exists
         run: |
@@ -47,6 +47,6 @@ jobs:
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push rishav13/backendtest:${{ github.sha }}
-          docker push rishav13/backendtest:latest
+          docker --push rishav13/backendtest:${{ github.sha }}
+          docker --push rishav13/backendtest:latest
           
