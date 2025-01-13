@@ -31,7 +31,11 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-
+      - name: Log in to Docker Hub
+        if: env.DOCKER_USERNAME && env.DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ rishav13 }}
+          DOCKER_PASSWORD: ${{ Rishav@12345# }}
       # Step 6: Build Docker image
       - name: Build Docker image
         run: |
