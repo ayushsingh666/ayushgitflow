@@ -11,7 +11,7 @@ public class WorkflowApplication {
 
 	@GetMapping("/mapping")
 	public String welcome(){
-		return "welcome to run build bro";
+		return "welcome to run build bro all good";
 	}
 	/*echo "# ayushgitflow" >> README.md
 git init
