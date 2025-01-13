@@ -31,6 +31,18 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+      - name: Log in to Docker Hub
+        if: env.DOCKER_USERNAME && env.DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ rishav13 }}
+          DOCKER_PASSWORD: ${{ Rishav@12345# }}
+      # Step 6: Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t gcr.io/beckendtest/finone-backend:${{ github.sha }} .
+          
+          
+
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
     #
