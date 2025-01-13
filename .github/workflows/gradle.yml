@@ -1,4 +1,3 @@
-
 name: project cicd
 
 on:
@@ -34,22 +33,10 @@ jobs:
       # Log in to Docker Hub securely using GitHub Secrets
       - name: Log in to Docker Hub
         env:
-          DOCKER_USERNAME: ${{ rishav13 }}
-          DOCKER_PASSWORD: ${{ Rishav@12345# }}
-        run: echo "${{ rishav13 }}" | docker login -u "${{ Rishav@12345# }}" --password-stdin
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       # Build Docker image
       - name: Build Docker image
-        run: docker build -t gcr.io/beckendtest/finone-backend:${{ github.sha }} .
-
-
-    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
-    #
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-    #   with:
-    #     gradle-version: '8.9'
-    #
-    # - name: Build with Gradle 8.9
-    #   run: gradle build
+        run: docker buildx build -f docker/Dockerfile -t gcr.io/beckendtest/finone-backend:${{ github.sha }} .
