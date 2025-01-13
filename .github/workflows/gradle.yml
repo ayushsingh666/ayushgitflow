@@ -34,9 +34,9 @@ jobs:
       # Log in to Docker Hub securely using GitHub Secrets
       - name: Log in to Docker Hub
         env:
-          DOCKER_USERNAME: ${{ secrets.rishav13 }}
-          DOCKER_PASSWORD: ${{ secrets.Rishav@12345# }}
-        run: echo "${{ secrets.rishav13 }}" | docker login -u "${{ secrets.Rishav@12345# }}" --password-stdin
+          DOCKER_USERNAME: ${{ rishav13 }}
+          DOCKER_PASSWORD: ${{ Rishav@12345# }}
+        run: echo "${{ rishav13 }}" | docker login -u "${{ Rishav@12345# }}" --password-stdin
 
       # Build Docker image
       - name: Build Docker image
