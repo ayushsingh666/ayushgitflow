@@ -39,4 +39,4 @@ jobs:
 
       # Build Docker image
       - name: Build Docker image
-        run: docker buildx build -f docker/Dockerfile gcr.io/beckendtest/finone-backend:${{ github.sha }} .
+        run: docker buildx build -f docker/Dockerfile -t gcr.io/beckendtest/finone-backend:${{ github.sha }} .
