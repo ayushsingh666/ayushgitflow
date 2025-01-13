@@ -44,8 +44,13 @@ jobs:
       - name: Tag Docker image
         run: |
           docker tag rishav13/backendtest:${{ github.sha }} rishav13/backendtest:latest
+          
+      - name: Tag Docker image
+        run: |
+          docker tag rishav13/backendtest:${{ github.sha }} rishav13/backendtest:latest
 
       - name: Push Docker image to Docker Hub
         run: |
           docker push rishav13/backendtest:${{ github.sha }}
+          docker push rishav13/backendtest:latest
           
