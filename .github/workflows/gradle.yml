@@ -47,6 +47,6 @@ jobs:
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push rishav13/backendtest:${{ github.sha }} .
-          docker push rishav13/backendtest:latest
+          docker push ***/backendtest:${{ github.sha }}
+          docker push ***/backendtest:latest
           
