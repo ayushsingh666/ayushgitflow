@@ -1,12 +1,11 @@
-name: Project CI/CD
+
+name: project cicd
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -15,32 +14,41 @@ jobs:
       contents: read
 
     steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # Step 2: Set up JDK 17 (using Eclipse Adoptium Temurin distribution)
+      # Set up JDK 17 (using Adoptium Temurin)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # Step 3: Ensure the Gradle Wrapper is executable
+      # Ensure gradlew is executable
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      # Step 4: Build the project using the Gradle Wrapper
+      # Build the project using the Gradle Wrapper
       - name: Build with Gradle
         run: ./gradlew build
 
-      # Step 5: Log in to Docker Hub securely using GitHub Secrets
       - name: Log in to Docker Hub
+        if: env.DOCKER_USERNAME && env.DOCKER_PASSWORD
         env:
-          DOCKER_USERNAME: ${{ secrets.rishav13 }}
-          DOCKER_PASSWORD: ${{ secrets.Rishav@12345# }}
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
+          DOCKER_USERNAME: ${{ rishav13 }}
+          DOCKER_PASSWORD: ${{ Rishav@12345# }}
       # Step 6: Build Docker image
       - name: Build Docker image
-        run: docker build -t gcr.io/beckendtest/finone-backend:${{ github.sha }} .
+        run: |
+          docker build -t gcr.io/beckendtest/finone-backend:${{ github.sha }} .
+          
+
+    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
+    #
+    # - name: Setup Gradle
+    #   uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+    #   with:
+    #     gradle-version: '8.9'
+    #
+    # - name: Build with Gradle 8.9
+    #   run: gradle build
