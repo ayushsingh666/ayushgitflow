@@ -43,7 +43,7 @@ jobs:
 
       - name: Verify Docker image exists
         run: |
-          docker images | grep gcr.io/beckendtest/finone-backend:${{ github.sha }} || echo "Docker image not found"
+          docker images | grep gcr.io/beckendtest:${{ github.sha }} || echo "Docker image not found"
 
       - name: Push Docker image to Docker Hub
         run: |
