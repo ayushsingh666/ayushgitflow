@@ -1,4 +1,5 @@
-name: Project CI/CD
+
+name: project cicd
 
 on:
   push:
@@ -50,7 +51,20 @@ jobs:
           docker images | grep ${{ secrets.DOCKER_USERNAME }}/backendtest || echo "Docker image not found"
 
       # Push Docker image to Docker Hub
-      - name: Push Docker image to Docker Hub
+     # - name: Push Docker image to Docker Hub
+      #  run: |
+      #    docker push ${{ secrets.DOCKER_USERNAME }}/backendtest:${{ github.sha }}
+      #    docker push ${{ secrets.DOCKER_USERNAME }}/backendtest:latest
+
+      - name: Authenticate to Google Cloud using Workload Identity Federation
+        uses: google-github-actions/auth@v0
+        with:
+          token_format: access_token
+          workload_identity_provider: projects/${{secrets.GCP_PROJECT_ID}}/locations/global/workloadIdentityPools/dev-fin-github-resources/subject/SUBJECT_ATTRIBUTE_VALUE  # Replace with your Workload Identity Pool and Provider
+          service_account: projets/${{secrets.GCP_PROJECT_ID }}/service/finone-dev-resources @${{secrets.GCP_PROJECT_ID}}.iam.gserviceaccount.com
+
+      - name: Push Docker image to Google Container Registry
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/backendtest:${{ github.sha }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/backendtest:latest
+          docker push gcr.io/${{ env.GOOGLE_PROJECT_ID }}/finone-backend:${{ github.sha }}
+          
+          
